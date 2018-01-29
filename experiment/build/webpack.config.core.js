@@ -4,12 +4,12 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 var path = require('path');
-
 const resolve = (dir) => {
   return path.join(__dirname, '..', dir);
 }
 
 var environment = (process.env.NODE_ENV || "development").trim();
+
 console.log("------------------------------------------------------");
 console.log("Build: ", environment.toUpperCase());
 console.log("------------------------------------------------------");
@@ -51,10 +51,10 @@ var commons = {
         exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"]
       },
-      {
-        test: /\.html$/,
-        use: "raw-loader"
-      },
+      // {
+      //   test: /\.html$/,
+      //   use: "raw-loader"
+      // },
       // {
       //   test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
       //   exclude: /node_modules/,
