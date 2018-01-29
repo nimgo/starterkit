@@ -13,44 +13,38 @@ module.exports = {
 
   plugins: [
 
-		// production build of react / react-dom
-		new webpack.DefinePlugin({
-			"process.env": {
-				NODE_ENV: JSON.stringify("production")
-			}
-		}),
+    // production build of react / react-dom
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify("production")
+      }
+    }),
 
- 		new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
 
-		// defines the sequence of injection
-    new webpack.optimize.CommonsChunkPlugin(
-			{
-				name: ["app", "vendor", "polyfills"]
-			}
+    // defines the sequence of injection
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ["app", "vendor", "polyfills"]
+    }),
+
+    new CleanWebpackPlugin(
+      [
+        "./static",
+        "./*",
+      ], {
+        root: dist,
+        verbose: true
+      }
     ),
 
-		new CleanWebpackPlugin(
-			[
-				"./static",
-				"./*",
-			],
-			{
-				root: dist,
-				verbose: true
-			}
-		),
-		new webpack.optimize.UglifyJsPlugin(
-			{
-				compress: {
-					warnings: false
-				},
-				output: {
-					comments: false
-				},
-				sourceMap: {
-					warnings: false
-				}
-			}
-		),
-	]
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      },
+      sourceMap: true
+    }),
+  ]
 }

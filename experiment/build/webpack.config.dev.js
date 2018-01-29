@@ -5,11 +5,8 @@ var dist = path.resolve(__dirname, "../dist");
 
 module.exports = {
 
-  devtool: "source-map", //"eval",
-  //devtool: "source-map",
-
   performance: {
-		hints: false //"warning"
+    hints: false //"warning"
   },
 
   output: {
