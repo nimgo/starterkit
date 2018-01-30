@@ -1,18 +1,20 @@
-var webpack = require('webpack');
+const environment = (process.env.NODE_ENV || "development").trim();
 
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-var CopyWebpackPlugin = require("copy-webpack-plugin");
-
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 const resolve = (dir) => {
   return path.join(__dirname, '..', dir);
 }
 
+const AppSource = resolve('src');
+const Resources = resolve('resources');
+
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const environment = (process.env.NODE_ENV || "development").trim();
 
 console.log("------------------------------------------------------");
-console.log("Build: ", environment.toUpperCase());
+console.log(" Build: ", environment.toUpperCase());
 console.log("------------------------------------------------------");
 
 var commons = {
@@ -32,34 +34,72 @@ var commons = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".css", ".less", ".scss"],
     alias: {
-      '@': resolve('src')
+      '@': AppSource
     }
   },
 
   module: {
     rules: [{
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        include: [AppSource],
         use: ["ts-loader", "source-map-loader"]
       },
       {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        include: [Resources],   
+        use: [
+          {
+            loader:"url-loader",
+            options: {
+              limit: "10000",
+              name: "static/images/[name]-[hash:5].[ext]"
+            }    
+          }
+        ]
+      },
+      {
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+        include: [Resources],   
+        use: [
+          {
+            loader:"url-loader",
+            options: {
+              limit: "10000",
+              name: "static/fonts/[name]-[hash:5].[ext]"
+            }    
+          }
+        ]
+      },
+      {
         test: /\.css$/,
+        include: [AppSource, Resources, /node_modules/],
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [{
             loader: 'css-loader',
             options: {
-              minimize: true
+              minimize: true,
+              modules: true,
+              sourceMap: 1,
+              localIdentName: "[name]__[local]__[hash:5]"
             }
           }]
         })
       },
       {
         test: /\.less$/,
+        include: [AppSource, /node_modules/],
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [{
-            loader: "css-loader" // translates CSS into CommonJS
+            loader: "css-loader", // translates CSS into CommonJS
+            options: {
+              minimize: true,
+              modules: true,
+              importLoaders: 1,
+              sourceMap: true,
+              localIdentName: "[name]__[local]__[hash:5]"
+            }
           }, {
             loader: "less-loader" // compiles Less to CSS
           }]
@@ -68,22 +108,14 @@ var commons = {
       {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"]
-      },
-      // {
-      //   test: /\.html$/,
-      //   use: "raw-loader"
-      // },
-      // {
-      //   test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
-      //   exclude: /node_modules/,
-      //   loader: "file-loader?name=assets/[name]-[hash:6].[ext]"
-      // }
+      }
+      
     ]
   },
 
   plugins: [
 
-    new ExtractTextPlugin("styles.[hash:6].css"),
+    new ExtractTextPlugin("static/styles/styles.[hash:6].css"),
 
     new HtmlWebpackPlugin({
       chunks: ["app", "vendor", "polyfills"],
@@ -92,32 +124,32 @@ var commons = {
       filename: "./index.html",
     }),
 
-    new CopyWebpackPlugin([{
-        from: "resources/css/*.*",
-        to: "static/css/",
-        flatten: true
-      },
-      {
-        from: "resources/fonts/*.*",
-        to: "static/fonts/",
-        flatten: true
-      },
-      {
-        from: "resources/imgs/*.*",
-        to: "static/imgs/",
-        flatten: true
-      },
-      {
-        from: "resources/js/*.*",
-        to: "static/js/",
-        flatten: true
-      },
-      {
-        from: "resources/root/*",
-        to: ".",
-        flatten: true
-      }
-    ])
+    // new CopyWebpackPlugin([{
+    //     from: "resources/css/*.*",
+    //     to: "static/css/",
+    //     flatten: true
+    //   },
+    //   {
+    //     from: "resources/fonts/*.*",
+    //     to: "static/fonts/",
+    //     flatten: true
+    //   },
+    //   {
+    //     from: "resources/imgs/*.*",
+    //     to: "static/imgs/",
+    //     flatten: true
+    //   },
+    //   {
+    //     from: "resources/js/*.*",
+    //     to: "static/js/",
+    //     flatten: true
+    //   },
+    //   {
+    //     from: "resources/root/*",
+    //     to: ".",
+    //     flatten: true
+    //   }
+    // ])
   ]
 
 };

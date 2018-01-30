@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { DatePicker } from 'antd';
-import 'antd/dist/antd.less';
+// import { DatePicker } from 'antd';
 
 import { HelloFunc } from "./hellofunc";
 
@@ -12,7 +11,8 @@ export class Hello extends React.Component<HelloProps, any> {
   render() {
     return (
       <div>
-        <DatePicker />
+        {/* <DatePicker /> */}
+        <img src="../../resources/imgs/test.png" />
         <span>Hello from {this.props.compiler} and {this.props.framework}!</span>
         <HelloFunc value="spaz" />
       </div>
