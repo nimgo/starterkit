@@ -93,8 +93,8 @@ var commons = {
         flatten: true
       },
       {
-        from: "resources/favico/*",
-        to: "static/favico",
+        from: "resources/root/*",
+        to: ".",
         flatten: true
       }
     ])
