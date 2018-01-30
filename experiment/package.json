@@ -13,6 +13,7 @@
   "author": "jave",
   "license": "GIC",
   "dependencies": {
+    "antd": "^3.1.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
@@ -22,9 +23,13 @@
     "clean-webpack-plugin": "^0.1.18",
     "copy-webpack-plugin": "^4.3.1",
     "cross-env": "^5.1.3",
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
+    "less-loader": "^4.0.5",
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.3",
+    "style-loader": "^0.20.1",
     "ts-loader": "^3.3.1",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",

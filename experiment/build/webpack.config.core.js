@@ -8,7 +8,8 @@ const resolve = (dir) => {
   return path.join(__dirname, '..', dir);
 }
 
-var environment = (process.env.NODE_ENV || "development").trim();
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const environment = (process.env.NODE_ENV || "development").trim();
 
 console.log("------------------------------------------------------");
 console.log("Build: ", environment.toUpperCase());
@@ -29,7 +30,7 @@ var commons = {
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".css", ".less", ".scss"],
     alias: {
       '@': resolve('src')
     }
@@ -43,12 +44,18 @@ var commons = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        use: "style-loader!css-loader"
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [{
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }]
+        })
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"]
       },
       // {
@@ -64,6 +71,8 @@ var commons = {
   },
 
   plugins: [
+
+    new ExtractTextPlugin("styles.[hash:6].css"),
 
     new HtmlWebpackPlugin({
       chunks: ["app", "vendor", "polyfills"],
