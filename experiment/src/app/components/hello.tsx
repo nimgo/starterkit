@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 // import { DatePicker } from 'antd';
 
-import { HelloFunc } from "./hellofunc";
+import { HelloFunc } from "@app/components/hellofunc";
+
+
+// const imagex = require("./test2.png");
+
+
 
 export interface HelloProps { compiler: string; framework: string; }
 
@@ -12,7 +17,7 @@ export class Hello extends React.Component<HelloProps, any> {
     return (
       <div>
         {/* <DatePicker /> */}
-        <img src="../../resources/imgs/test.png" />
+        <img src={require("@/app/components/test3.png")} />
         <span>Hello from {this.props.compiler} and {this.props.framework}!</span>
         <HelloFunc value="spaz" />
       </div>

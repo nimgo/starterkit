@@ -25,97 +25,98 @@ var commons = {
     hints: false
   },
 
-  entry: {
-    "app": "./src/startup.tsx",
-    "vendor": "./src/vendor.ts",
-    "polyfills": "./src/polyfills.ts"
-  },
-
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".css", ".less", ".scss"],
     alias: {
-      '@': AppSource
+      '@': AppSource,
+      '@app': resolve('src/app')
     }
+  },
+
+  entry: {
+    "app": "@/startup.tsx",
+    "vendor": "@/vendor.ts",
+    "polyfills": "@/polyfills.ts"
   },
 
   module: {
     rules: [{
-        test: /\.(ts|tsx)$/,
-        include: [AppSource],
-        use: ["ts-loader", "source-map-loader"]
-      },
-      {
-        test: /\.(png|jp(e*)g|svg|gif)$/,
-        include: [Resources],   
-        use: [
-          {
-            loader:"url-loader",
-            options: {
-              limit: "10000",
-              name: "static/images/[name]-[hash:5].[ext]"
-            }    
+      test: /\.(ts|tsx)$/,
+      include: [AppSource],
+      use: ["ts-loader", "source-map-loader"]
+    },
+    {
+      test: /\.(png|jp(e*)g|svg|gif)$/,
+      include: [AppSource, Resources],
+      use: [
+        {
+          loader: "url-loader",
+          options: {
+            limit: "100",
+            name: "static/images/[name]-[hash:5].[ext]"
           }
-        ]
-      },
-      {
-        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
-        include: [Resources],   
-        use: [
-          {
-            loader:"url-loader",
-            options: {
-              limit: "10000",
-              name: "static/fonts/[name]-[hash:5].[ext]"
-            }    
+        }
+      ]
+    },
+    {
+      test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+      include: [Resources],
+      use: [
+        {
+          loader: "url-loader",
+          options: {
+            limit: "100",
+            name: "static/fonts/[name]-[hash:5].[ext]"
           }
-        ]
-      },
-      {
-        test: /\.css$/,
-        include: [AppSource, Resources, /node_modules/],
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [{
-            loader: 'css-loader',
-            options: {
-              minimize: true,
-              modules: true,
-              sourceMap: 1,
-              localIdentName: "[name]__[local]__[hash:5]"
-            }
-          }]
-        })
-      },
-      {
-        test: /\.less$/,
-        include: [AppSource, /node_modules/],
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [{
-            loader: "css-loader", // translates CSS into CommonJS
-            options: {
-              minimize: true,
-              modules: true,
-              importLoaders: 1,
-              sourceMap: true,
-              localIdentName: "[name]__[local]__[hash:5]"
-            }
-          }, {
-            loader: "less-loader" // compiles Less to CSS
-          }]
-        })
-      },
-      {
-        test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
-      }
-      
+        }
+      ]
+    },
+    {
+      test: /\.css$/,
+      include: [AppSource, Resources, /node_modules/],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: 'css-loader',
+          options: {
+            minimize: true,
+            modules: true,
+            sourceMap: 1,
+            localIdentName: "[name]__[local]__[hash:5]"
+          }
+        }]
+      })
+    },
+    {
+      test: /\.less$/,
+      include: [AppSource, /node_modules/],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader", // translates CSS into CommonJS
+          options: {
+            minimize: true,
+            modules: true,
+            importLoaders: 1,
+            sourceMap: true,
+            localIdentName: "[name]__[local]__[hash:5]"
+          }
+        }, {
+          loader: "less-loader" // compiles Less to CSS
+        }]
+      })
+    },
+    {
+      test: /\.scss$/,
+      use: ["style-loader", "css-loader", "sass-loader"]
+    }
+
     ]
   },
 
   plugins: [
 
-    new ExtractTextPlugin("static/styles/styles.[hash:6].css"),
+    new ExtractTextPlugin("static/css/styles.[hash:6].css"),
 
     new HtmlWebpackPlugin({
       chunks: ["app", "vendor", "polyfills"],
