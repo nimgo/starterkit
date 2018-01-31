@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "mockapis": "node mock/mock-server.js",
+    "mockapis": "node mock/mock-server.js --watch mock/",
     "clean": "rimraf dist",
     "build": "webpack --progress --profile --colors --config ./build/webpack.config.core.js",
     "watch": "npm run build -- --watch",

@@ -24,7 +24,7 @@ server.use(middlewares)
 //   next()
 // })
 
-server.use('/api', router)
+server.use('/', router)
 server.listen(3000, () => {
   console.log('JSON Server is running')
 })

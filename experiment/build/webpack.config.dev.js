@@ -17,10 +17,11 @@ module.exports = {
   devServer: {
     contentBase: dist,
     inline: true,
+    compress: true,
     open: true,
     port: 5000,
-    // proxy: {
-    //   '/api': 'http://localhost:3000/api'
-    // }
+    proxy: {
+      '/api': 'http://localhost:3000/api'
+    }
   }
 }
