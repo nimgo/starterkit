@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 import { HelloFunc } from "@app/components/hellofunc";
 
+import "./hello.scoped.css"
 
 // const imagex = require("./test2.png");
 
@@ -18,8 +19,9 @@ export class Hello extends React.Component<HelloProps, any> {
       <div>
         {/* <DatePicker /> */}
         <img src={require("@/app/components/test3.png")} />
-        <span>Hello from {this.props.compiler} and {this.props.framework}!</span>
+        <span>Hello XX from {this.props.compiler} and {this.props.framework}!</span>
         <HelloFunc value="spaz" />
+        <p className="text-colr"> heloa</p>
       </div>
     );
   }

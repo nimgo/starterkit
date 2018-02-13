@@ -53,7 +53,7 @@ var commons = {
           loader: "url-loader",
           options: {
             limit: "100",
-            name: "static/images/[name]-[hash:5].[ext]"
+            name: "static/images/[name].[hash:6].[ext]"
           }
         }
       ]
@@ -66,14 +66,14 @@ var commons = {
           loader: "url-loader",
           options: {
             limit: "100",
-            name: "static/fonts/[name]-[hash:5].[ext]"
+            name: "static/fonts/[name].[hash:5].[ext]"
           }
         }
       ]
     },
     {
-      test: /\.css$/,
-      include: [AppSource, Resources, /node_modules/],
+      test: /\.scoped.css$/,
+      include: [AppSource],
       use: ExtractTextPlugin.extract({
         fallback: "style-loader",
         use: [{
@@ -81,15 +81,15 @@ var commons = {
           options: {
             minimize: true,
             modules: true,
-            sourceMap: 1,
-            localIdentName: "[name]__[local]__[hash:5]"
+            // sourceMap: 1,
+            localIdentName: "[name]__[local]__[hash:3]"
           }
         }]
       })
     },
     {
-      test: /\.less$/,
-      include: [AppSource, /node_modules/],
+      test: /\.scoped.less$/,
+      include: [AppSource],
       use: ExtractTextPlugin.extract({
         fallback: "style-loader",
         use: [{
@@ -99,7 +99,7 @@ var commons = {
             modules: true,
             importLoaders: 1,
             sourceMap: true,
-            localIdentName: "[name]__[local]__[hash:5]"
+            localIdentName: "[name]__[local]__[hash:3]"
           }
         }, {
           loader: "less-loader" // compiles Less to CSS
@@ -107,11 +107,51 @@ var commons = {
       })
     },
     {
-      test: /\.scss$/,
-      use: ["style-loader", "css-loader", "sass-loader"]
-    }
-
-    ]
+      test: /^((?!\.scoped).)*css$/,
+      include: [Resources, /node_modules/],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader",
+          options: {
+            minimize: true,
+            sourceMap: true
+          }
+        }]
+      })
+    },
+    {
+      test: /^((?!\.scoped).)*less$/,
+      include: [Resources, /node_modules/],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader",
+          options: {
+            minimize: true,
+            sourceMap: true
+          }
+        }]
+      }, {
+        loader: "less-loader" // compiles Less to CSS
+      })
+    },  
+    {
+      test: /^((?!\.scoped).)*scss$/,
+      include: [Resources, /node_modules/],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader",
+          options: {
+            minimize: true,
+            sourceMap: true
+          }
+        }]
+      }, {
+        loader: "sass-loader" // compiles scss to CSS
+      })
+    }]
   },
 
   plugins: [

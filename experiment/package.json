@@ -1,18 +1,18 @@
 {
-  "name": "react-typescript-webpack",
+  "name": "react-redux-saga-typescript-webpack",
   "version": "0.1.0",
   "description": "",
   "scripts": {
     "mockapis": "node mock/mock-server.js --watch mock/",
     "clean": "rimraf dist",
+    "build:prod": "npm run clean && cross-env NODE_ENV=production npm run build",
     "build": "webpack --progress --profile --colors --config ./build/webpack.config.core.js",
     "watch": "npm run build -- --watch",
-    "start": "webpack-dev-server --progress --colors --hot --config ./build/webpack.config.core.js",
-    "publish": "npm run clean && cross-env NODE_ENV=production npm run build"
+    "start": "webpack-dev-server --progress --colors --hot --config ./build/webpack.config.core.js"
   },
   "keywords": [],
   "author": "jave",
-  "license": "GIC",
+  "license": "MIT",
   "dependencies": {
     "antd": "^3.1.6",
     "bootstrap": "^4.0.0",
@@ -33,6 +33,7 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.20.1",
     "ts-loader": "^3.3.1",
