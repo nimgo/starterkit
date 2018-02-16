@@ -10,7 +10,7 @@ export class App extends React.Component<any, any> {
         <p className="text-success"> excellent</p>
         <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
         <Hello compiler="funny bizz" framework="React" />
-        
+
       </div>
     );
   }
