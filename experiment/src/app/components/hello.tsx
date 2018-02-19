@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 import { HelloFunc } from "./hellofunc";
 
-import "./hello.css"
+import styles from "./hello.css"
 
 // const imagex = require("./test2.png");
 
@@ -19,7 +19,7 @@ export class Hello extends React.Component<HelloProps, any> {
         <img src={require("@/app/components/test3.png")} />
         <span>Hello XX from {this.props.compiler} and {this.props.framework}!</span>
         <HelloFunc value="spaz" />
-        <p className="greeny2 greeny alignc"> heloa</p>
+        <p className={`greeny ${styles.greeny}`} > heloa</p>
       </div >
     );
   }

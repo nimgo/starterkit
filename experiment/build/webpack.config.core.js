@@ -44,57 +44,57 @@ var commons = {
 
   module: {
     rules: [{
-        test: /\.(ts|tsx)$/,
-        include: [AppSource],
-        use: ["ts-loader", "source-map-loader"]
-      },
-      {
-        test: /\.(png|jp(e*)g|svg|gif)$/,
-        include: [AppSource, Resources],
+      test: /\.(ts|tsx)$/,
+      include: [AppSource],
+      use: ["ts-loader", "source-map-loader"]
+    },
+    {
+      test: /\.(png|jp(e*)g|svg|gif)$/,
+      include: [AppSource, Resources],
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: "100",
+          name: "static/images/[name].[hash:6].[ext]"
+        }
+      }]
+    },
+    {
+      test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+      include: [Resources],
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: "100",
+          name: "static/fonts/[name].[hash:5].[ext]"
+        }
+      }]
+    },
+    {
+      test: /\.css$/,
+      include: [Resources, /node_modules/],
+      use: ExtractTextPluginGlobal.extract({
+        fallback: "style-loader",
+        use: ["css-loader"]
+      })
+    },
+    {
+      test: /\.css$/,
+      include: [AppSource],
+      use: ExtractTextPluginLocal.extract({
+        fallback: "style-loader",
         use: [{
-          loader: "url-loader",
+          loader: 'css-loader',
           options: {
-            limit: "100",
-            name: "static/images/[name].[hash:6].[ext]"
+            minimize: true,
+            modules: true,
+            sourceMap: 1,
+            // localIdentName: "[local]"
+            localIdentName: "[name]__[local]__[hash:3]"
           }
         }]
-      },
-      {
-        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
-        include: [Resources],
-        use: [{
-          loader: "url-loader",
-          options: {
-            limit: "100",
-            name: "static/fonts/[name].[hash:5].[ext]"
-          }
-        }]
-      },
-      {
-        test: /\.css$/,
-        include: [Resources, /node_modules/],
-        use: ExtractTextPluginGlobal.extract({
-          fallback: "style-loader",
-          use: ["css-loader"]
-        })
-      },
-      {
-        test: /\.css$/,
-        include: [AppSource],
-        use: ExtractTextPluginLocal.extract({
-          fallback: "style-loader",
-          use: [{
-            loader: 'css-loader',
-            options: {
-              minimize: true,
-              modules: true,
-              sourceMap: 1,
-              localIdentName: "[local]"
-              // localIdentName: "[name]__[local]__[hash:3]"
-            }
-          }]
-        })
-      },
+      })
+    },
       // {
       //   test: /\.scoped.less$/,
       //   include: [AppSource],
