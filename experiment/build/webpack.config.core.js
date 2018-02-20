@@ -75,7 +75,13 @@ var commons = {
       include: [Resources, /node_modules/],
       use: ExtractTextPluginGlobal.extract({
         fallback: "style-loader",
-        use: ["css-loader"]
+        use: [{
+          loader: "css-loader",
+          options: {
+            minimize: true,
+            sourceMap: true
+          }
+        }]
       })
     },
     {
@@ -94,56 +100,40 @@ var commons = {
           }
         }]
       })
-    },
-      // {
-      //   test: /\.scoped.less$/,
-      //   include: [AppSource],
-      //   use: ExtractTextPlugin.extract({
-      //     fallback: "style-loader",
-      //     use: [{
-      //       loader: "css-loader", // translates CSS into CommonJS
-      //       options: {
-      //         minimize: true,
-      //         modules: true,
-      //         importLoaders: 1,
-      //         sourceMap: true,
-      //         localIdentName: "[name]__[local]__[hash:3]"
-      //       }
-      //     }, {
-      //       loader: "less-loader" // compiles Less to CSS
-      //     }]
-      //   })
-      // },
-      // {
-      //   test: /^((?!\.scoped).)*css$/,
-      //   include: [Resources, /node_modules/],
-      //   use: ExtractTextPlugin.extract({
-      //     fallback: "style-loader",
-      //     use: [{
-      //       loader: "css-loader",
-      //       options: {
-      //         minimize: true,
-      //         sourceMap: true
-      //       }
-      //     }]
-      //   })
-      // },
-      // {
-      //   test: /^((?!\.scoped).)*less$/,
-      //   include: [Resources, /node_modules/],
-      //   use: ExtractTextPlugin.extract({
-      //     fallback: "style-loader",
-      //     use: [{
-      //       loader: "css-loader",
-      //       options: {
-      //         minimize: true,
-      //         sourceMap: true
-      //       }
-      //     }]
-      //   }, {
-      //     loader: "less-loader" // compiles Less to CSS
-      //   })
-      // },  
+    }, 
+    {
+      test: /\.less$/,
+      include: [Resources, /node_modules/],
+      use: ExtractTextPluginGlobal.extract({
+        fallback: "style-loader",
+        use: [{
+          loader: "css-loader",
+          options: {
+            minimize: true,
+            sourceMap: true
+          }
+        }, "less-loader" // compiles Less to CSS
+        ]
+      })
+    },  
+      {
+        test: /\.less$/,
+        include: [AppSource],
+        use: ExtractTextPluginLocal.extract({
+          fallback: "style-loader",
+          use: [{
+            loader: "css-loader", // translates CSS into CommonJS
+            options: {
+              minimize: true,
+              modules: true,
+              importLoaders: 1,
+              sourceMap: true,
+              localIdentName: "[name]__[local]__[hash:3]"
+            }
+          }, "less-loader" // compiles Less to CSS
+          ]
+        })
+      },
       // {
       //   test: /^((?!\.scoped).)*scss$/,
       //   include: [Resources, /node_modules/],

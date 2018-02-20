@@ -2,6 +2,8 @@ import React, { Component } from "react";
 // import { DatePicker } from 'antd';
 
 import { HelloFunc } from "./hellofunc";
+import { fib } from "./math";
+
 
 import styles from "./hello.css"
 
@@ -16,6 +18,8 @@ export class Hello extends React.Component<HelloProps, any> {
     return (
       <div>
         {/* <DatePicker /> */}
+        {fib(10)};
+
         <img src={require("@/app/components/test3.png")} />
         <span>Hello XX from {this.props.compiler} and {this.props.framework}!</span>
         <HelloFunc value="spaz" />
